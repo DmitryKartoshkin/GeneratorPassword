@@ -11,10 +11,10 @@ class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'registration\\registration.html'
     success_url = reverse_lazy('login')
-    #
+
     # def form_valid(self, form):
     #     user = form.save()
-    #     login(self.reqest, user)
+    #     login(self.request, user)
     #     return redirect('guest')
 
 
@@ -23,6 +23,7 @@ class LoginUser(LoginView):
     template_name = 'registration\login.html'
 
     def get_success_url(self):
+        """Функция, для перехода на страницу пользователя после авторизации"""
         return reverse_lazy('guest')
 
 

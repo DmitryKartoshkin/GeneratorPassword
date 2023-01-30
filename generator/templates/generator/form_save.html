@@ -1,0 +1,15 @@
+{% extends 'generator/index.html' %}
+
+{% block title %}Сохранить пароль{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+<h1>Сохранить пароль</h1>
+<form action="{% url 'save' %}" method="post">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-success">Добавить</button>
+</form>
+</div>
+{% endblock %}

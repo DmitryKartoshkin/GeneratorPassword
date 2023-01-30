@@ -1,10 +1,10 @@
 from django import forms
-from generator.models import Password
+from generator.models import Passwords
 
 
 class AddSavePassword(forms.ModelForm):
     class Meta:
-        model = Password
+        model = Passwords
         fields = ['service', 'password_for_the_service']
 
 

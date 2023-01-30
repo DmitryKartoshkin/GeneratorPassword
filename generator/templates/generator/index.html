@@ -1,0 +1,42 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'generator/css/main.css' %}">
+
+</head>
+<body>
+    <aside>
+        <img src="{% static 'generator/img/icon.png' %}" alt="logo">
+        <span class="logo"></span>
+        <h3>Навигация</h3>
+        <ul>
+            {% if request.user.is_authenticated %}
+
+            <li class="last">{{ user.username }}</li>
+            <li><a href="logout" class="">Выход</a></li>
+
+            {% else %}
+
+            <li><a href="{% url 'registration' %}" class="">Регистрация</a></li>
+            <li><a href="{% url 'login' %}" class="">Вход</a></li>
+
+            {% endif %}
+
+            <li><a href="{% url 'guest' %}" class="">Пароли</a></li>
+            <li><a href="{% url 'home' %}" class="">Главная страница</a></li>
+        </ul>
+    </aside>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

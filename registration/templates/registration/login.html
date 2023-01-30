@@ -1,0 +1,10 @@
+{% extends 'generator/index.html' %}
+{% block title %}Вход для пользователя{% endblock %}
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-success">Вход</button>
+</form>
+{% endblock %}

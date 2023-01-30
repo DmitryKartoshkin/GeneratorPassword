@@ -1,0 +1,39 @@
+{% extends 'generator/index.html' %}
+
+{% block title %}Пользователь{% endblock %}
+{% block content %}
+<style>
+   table {
+    width: 100%; /* Ширина таблицы */
+    border-collapse: collapse; /* Убираем двойные линии */
+   }
+   thead {
+    background: #BDB76B; /* Цвет фона заголовка */
+   }
+   td, th {
+    padding: 5px; /* Поля в ячейках */
+    border: 1px solid #333; /* Параметры рамки */
+   }
+  </style>
+<div class="container text-center">
+    <h1>Список актуальных паролей пользователя</h1>
+
+    <table class="container text-center">
+  <tr>
+    <th>Ресурс</th>
+    <th>Пароль</th>
+    <th>Дата создания</th>
+    <th>Дата обновления</th>
+  </tr>
+{% for p in passwords_user %}
+  <tr>
+    <td>{{ p.service }}</td>
+      <td>{{ p.password_for_the_service }}</td>
+      <td>{{ p.created_at }}</td>
+      <td>{{ p.updated_at }}</td>
+  </tr>
+{% endfor %}
+</table>
+
+</div>
+{% endblock %}
