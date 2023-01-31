@@ -18,14 +18,15 @@
 <div class="container text-center">
     <h1>Список актуальных паролей пользователя</h1>
 
-    <table class="container text-center">
+<table class="container text-center">
   <tr>
     <th>Ресурс</th>
     <th>Пароль</th>
     <th>Дата создания</th>
     <th>Дата обновления</th>
   </tr>
-{% for p in passwords_user %}
+
+ {% for p in page_obj %}
   <tr>
     <td>{{ p.service }}</td>
       <td>{{ p.password_for_the_service }}</td>
@@ -34,6 +35,20 @@
   </tr>
 {% endfor %}
 </table>
-
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Первая &nbsp;</a>
+            <a href="?page={{ page_obj.previous_page_number }}">&lArr; предъидущая &nbsp;</a>
+        {% endif %}
+        <span class="current">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">следующая &rArr; &nbsp;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &nbsp;</a>
+        {% endif %}
+    </span>
 </div>
 {% endblock %}

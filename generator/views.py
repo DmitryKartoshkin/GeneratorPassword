@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 import random
-
+from django.core.paginator import Paginator
 from generator.forms import AddSavePassword
 from generator.models import Passwords
 
@@ -30,9 +30,16 @@ def password(request):
 def user_data(request):
     # passwords_user = Passwords.objects.all()
     """Функция возвращает пароли авторизированного пользователя из БД"""
+
     user_name = request.user
     passwords_user = Passwords.objects.filter(user=user_name)
-    context = {'passwords_user': passwords_user}
+    paginator = Paginator(passwords_user, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'passwords_user': passwords_user,
+        'page_obj': page_obj
+    }
     return render(request, 'generator\guest.html', context)
 
 
