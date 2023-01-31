@@ -12,10 +12,10 @@ class RegisterUser(CreateView):
     template_name = 'registration\\registration.html'
     success_url = reverse_lazy('login')
 
-    # def form_valid(self, form):
-    #     user = form.save()
-    #     login(self.request, user)
-    #     return redirect('guest')
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
 
 
 class LoginUser(LoginView):
@@ -28,6 +28,7 @@ class LoginUser(LoginView):
 
 
 def logout_user(request):
+    """Функция обработко выхода пользователя из системы"""
     logout(request)
     return redirect('login')
 
