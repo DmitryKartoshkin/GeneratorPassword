@@ -26,7 +26,3 @@ aside ul li {
 aside ul li:hover, aside ul a:hover {
     transform: scale(1.05);
 }
-
-main .features {
-    margin-top: 100px;
-}

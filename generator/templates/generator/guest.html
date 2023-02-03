@@ -20,34 +20,39 @@
 
 <table class="container text-center">
   <tr>
+    <th>ИД</th>
     <th>Ресурс</th>
     <th>Пароль</th>
     <th>Дата создания</th>
     <th>Дата обновления</th>
+    <th>Редактирование пароля</th>
   </tr>
 
  {% for p in page_obj %}
-  <tr>
-    <td>{{ p.service }}</td>
-      <td>{{ p.password_for_the_service }}</td>
-      <td>{{ p.created_at }}</td>
-      <td>{{ p.updated_at }}</td>
-  </tr>
+    <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.service }}</td>
+        <td>{{ p.password_for_the_service }}</td>
+        <td>{{ p.created_at }}</td>
+        <td>{{ p.updated_at }}</td>
+        <td><a href="{% url 'delete' %}" class="btn btn-outline-success">Удалить</a>
+            <a href="" class="btn btn-outline-success">Изменить</a></td>
+    </tr>
 {% endfor %}
 </table>
 </div>
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; Первая &nbsp;</a>
-            <a href="?page={{ page_obj.previous_page_number }}">&lArr; предъидущая &nbsp;</a>
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; Предъидущая</a>
         {% endif %}
         <span class="current">
             Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
         </span>
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">следующая &rArr; &nbsp;</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &nbsp;</a>
+            <a href="?page={{ page_obj.next_page_number }}">Следующая &rsaquo;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
         {% endif %}
     </span>
 </div>

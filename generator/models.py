@@ -7,7 +7,13 @@ class Passwords(models.Model):
     password_for_the_service = models.CharField(max_length=20, blank=False, verbose_name="Пароль")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь'
+    )
 
     def __str__(self):
         return self.service

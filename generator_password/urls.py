@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from generator.views import home, password, user_data, form_save
+from generator.views import home, password, user_data, form_save, dell_password
 from registration.views import RegisterUser, LoginUser, logout_user
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,6 +30,7 @@ urlpatterns = [
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
     path('registration/', RegisterUser.as_view(), name='registration'),
-    path('save/', form_save, name='save')
+    path('save/', form_save, name='save'),
+    path('delete/', dell_password, name='delete')
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

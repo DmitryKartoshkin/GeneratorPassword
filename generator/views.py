@@ -3,6 +3,7 @@ import random
 from django.core.paginator import Paginator
 from generator.forms import AddSavePassword
 from generator.models import Passwords
+from rest_framework.viewsets import ModelViewSet
 
 
 def home(request):
@@ -30,10 +31,9 @@ def password(request):
 def user_data(request):
     # passwords_user = Passwords.objects.all()
     """Функция возвращает пароли авторизированного пользователя из БД"""
-
     user_name = request.user
     passwords_user = Passwords.objects.filter(user=user_name)
-    paginator = Paginator(passwords_user, 3)
+    paginator = Paginator(passwords_user, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -43,12 +43,22 @@ def user_data(request):
     return render(request, 'generator\guest.html', context)
 
 
+def dell_password(request):
+    print(request.GET)
+
+    return render(request, 'generator\dell.html')
+
+
 def form_save(request):
     """Функция обработки формы по сохранению в БД"""
     if request.method == 'POST':
         form = AddSavePassword(request.POST)
         if form.is_valid():
             try:
+                response = form.save(commit=False)
+                print(response.user)
+                print(request.user)
+                response.user = request.user
                 form.save()
                 return redirect('home')
             except:
