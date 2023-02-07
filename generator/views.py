@@ -4,6 +4,8 @@ from django.core.paginator import Paginator
 from generator.forms import AddSavePassword
 from generator.models import Passwords
 from rest_framework.viewsets import ModelViewSet
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 
 
 def home(request):
@@ -25,28 +27,33 @@ def password(request):
     for i in range(lenght):
         the_password += random.choice(characters)
     context = {'password': the_password}
-    return render(request, 'generator\password.html', context)
+    return render(request, r'generator\password.html', context)
 
 
 def user_data(request):
-    # passwords_user = Passwords.objects.all()
     """Функция возвращает пароли авторизированного пользователя из БД"""
-    user_name = request.user
-    passwords_user = Passwords.objects.filter(user=user_name)
-    paginator = Paginator(passwords_user, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'passwords_user': passwords_user,
-        'page_obj': page_obj
-    }
-    return render(request, 'generator\guest.html', context)
+    if not request.user.is_authenticated:
+        return redirect('not_registered')
+    else:
+        user_name = request.user
+        passwords_user = Passwords.objects.filter(user=user_name)
+        paginator = Paginator(passwords_user, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'passwords_user': passwords_user,
+            'page_obj': page_obj
+        }
+        return render(request, r'generator\guest.html', context)
 
 
-def dell_password(request):
-    print(request.GET)
-
-    return render(request, 'generator\dell.html')
+def delete(request, id):
+    try:
+        person = Passwords.objects.get(id=id)
+        person.delete()
+        return HttpResponseRedirect("/")
+    except Passwords.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")
 
 
 def form_save(request):
@@ -56,15 +63,29 @@ def form_save(request):
         if form.is_valid():
             try:
                 response = form.save(commit=False)
-                print(response.user)
-                print(request.user)
                 response.user = request.user
                 form.save()
                 return redirect('home')
             except:
-                form.add_eror(None, 'Ошибка')
+                form.add_error(None, 'Пользователь не авторизирован')
     else:
         form = AddSavePassword()
     context = {'form': form}
-    return render(request, 'generator\\form_save.html', context)
+    return render(request, r'generator\form_save.html', context)
+
+
+def edit(request, pk):
+    password = get_object_or_404(Passwords, pk=pk)
+    if request.method == "POST":
+        form = AddSavePassword(request.POST, instance=password)
+        if form.is_valid():
+            response = form.save(commit=False)
+            response.user = request.user
+            form.save()
+            return redirect('guest')
+    else:
+        form = AddSavePassword(instance=password)
+    context = {'form': form}
+    return render(request, r'generator\edit.html', context)
+
 

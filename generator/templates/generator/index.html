@@ -19,7 +19,7 @@
             {% if request.user.is_authenticated %}
 
             <li class="last">{{ user.username }}</li>
-            <li><a href="logout" class="">Выход</a></li>
+            <li><a href="{% url 'logout' %}" class="">Выход</a></li>
 
             {% else %}
 

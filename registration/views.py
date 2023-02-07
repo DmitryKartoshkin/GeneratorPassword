@@ -9,7 +9,7 @@ from django.contrib.auth import logout, login
 
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
-    template_name = 'registration\\registration.html'
+    template_name = r'registration\registration.html'
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):
@@ -20,7 +20,7 @@ class RegisterUser(CreateView):
 
 class LoginUser(LoginView):
     form_class = AuthenticationForm
-    template_name = 'registration\login.html'
+    template_name = r'registration\login.html'
 
     def get_success_url(self):
         """Функция, для перехода на страницу пользователя после авторизации"""
@@ -31,6 +31,10 @@ def logout_user(request):
     """Функция обработко выхода пользователя из системы"""
     logout(request)
     return redirect('login')
+
+
+def not_registered(request):
+    return render(request, r'registration\notregistered.html')
 
 
 

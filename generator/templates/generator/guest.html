@@ -35,8 +35,8 @@
         <td>{{ p.password_for_the_service }}</td>
         <td>{{ p.created_at }}</td>
         <td>{{ p.updated_at }}</td>
-        <td><a href="{% url 'delete' %}" class="btn btn-outline-success">Удалить</a>
-            <a href="" class="btn btn-outline-success">Изменить</a></td>
+        <td><a href="delete/{{ p.id }}" class="btn btn-outline-success">Удалить</a>
+            <a href="edit/{{ p.id }}" class="btn btn-outline-success">Изменить</a></td>
     </tr>
 {% endfor %}
 </table>
